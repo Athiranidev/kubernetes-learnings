@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-test
+spec:
+  containers:
+    - name: storage-check
+      image: busybox:1.36
+      command: ["sh", "-c", "echo 'Persistent data test' > /data/test.txt && cat /data/test.txt"]
+      volumeMounts:
+        - name: app-storage
+          mountPath: /data
+  volumes:
+    - name: app-storage
+      persistentVolumeClaim:
+        claimName: app-storage
+  restartPolicy: Never
